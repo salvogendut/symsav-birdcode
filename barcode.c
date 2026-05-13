@@ -305,7 +305,8 @@ static void build_label_row(const char *word, unsigned char font_row)
             lo_bit = (unsigned char)(0x80u >> boff);
             hi_bit = (unsigned char)(0x08u >> boff);
             lbl_buf[bp] &= (unsigned char)(~(lo_bit | hi_bit));
-            lbl_buf[bp] |= lo_bit | hi_bit;
+            if (cur_bar_byte & 0xF0u) lbl_buf[bp] |= lo_bit;
+            if (cur_bar_byte & 0x0Fu) lbl_buf[bp] |= hi_bit;
         }
     }
 }
@@ -405,8 +406,8 @@ static void cfg_cancel(void) { cfg_close(); cfg_prz = 0; }
 // --------------------------------------------------------------------------
 static void show_word(const char *word)
 {
-    static const unsigned char bar_inks[3] = { 0x00u, 0x0Fu, 0xFFu }; /* white, dim, bright */
-    cur_bar_byte = bar_inks[rand() % 3];
+    static const unsigned char bar_inks[2] = { 0x00u, 0xFFu }; /* white, bright */
+    cur_bar_byte = bar_inks[rand() % 2];
     vram_clear();
     build_barcode(word);
     draw_barcode_vram();
