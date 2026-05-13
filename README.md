@@ -1,5 +1,5 @@
 ![Example Image](barcode.png)
-# symsav-barcode
+# symsav-birdcode
 
 A barcode screensaver for [SymbOS](https://www.symbos.org/) on the Amstrad CPC.
 
